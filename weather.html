@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        main {
+            display: flex;
+            background-color: rgb(131, 138, 136);
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: url(https://t4.ftcdn.net/jpg/02/66/38/15/360_F_266381525_alVrbw15u5EjhIpoqqa1eI5ghSf7hpz7.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .box1 {
+            margin-top: 20px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .box2 {
+            width: 80%;
+            height: 30%;
+            text-align: center;
+            margin-top: 20px;
+            color: rgb(24, 255, 236);
+
+        }
+
+        .box2 h2 {
+            color: rgb(255, 255, 255);
+            background-color: red;
+            display: inline;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .box2 p {
+            color: rgb(81, 255, 0);
+            font-size: 4vw;
+            font-weight: bold;
+        }
+
+        .para1 {
+            font-size: 6vw;
+            color: yellow;
+            font-weight: bold;
+
+        }
+
+        #searchbar {
+            height: 50px;
+            width: 60%;
+            border-radius: 20px;
+            padding-left: 11px;
+            font-size: 3vw;
+            color: rgb(38, 14, 255);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <p class="para1">WEATHER FORCAST</p>
+        <div class="box1">
+            <form action="">
+                <input type="search" id="searchbar" placeholder="search city here....😎😍 ">
+            </form>
+        </div>
+        <div class="box2" id="show">
+            <p>result display here</p>
+            <!-- <h1>11 ℃</12>
+            <h2>Clear</h2> -->
+        </div>
+
+    </main>
+
+
+    <script>
+       
+        const API_KEY = '1707ec6b935218afc28bd8a734fe9152';
+        const form = document.querySelector("form")
+        const searchbar = document.querySelector("#searchbar")
+        const show = document.querySelector("#show")
+        // const API = `https://api.openweathermap.org/data/2.5/weather?
+        // q=${city}&appid=${API_KEY}&units=metric`
+        // const IMG_URL = `https: //openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        const getWeather = async (city) => {
+            show.innerHTML = `<h2> Loading... <h2>`
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data);
+            return showWeather(data)
+        }
+
+        const showWeather = (data) => {
+            if (data.cod == "404") {
+                show.innerHTML = `<h2> City Not Found  <h2>`
+                return;
+            }
+            show.innerHTML = `
+    
+               <h1>${data.main.temp} ℃</12>
+              <h2>${data.weather[0].main}</h2>
+
+             `
+        }
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+                getWeather(searchbar.value)
+                event.preventDefault();
+            }
+        )
+    </script>
+</body>
+
+</html>
